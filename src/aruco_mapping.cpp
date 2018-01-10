@@ -44,7 +44,7 @@ ArucoMapping::ArucoMapping(ros::NodeHandle *nh) :
   num_of_markers_ (10),                   // Number of used markers
   marker_size_(0.1),                      // Marker size in m
   calib_filename_("empty"),               // Calibration filepath
-  space_type_ ("plane"),                  // Space type - 2D plane 
+  space_type_ ("3D"),                  // Space type - 2D plane 
   roi_allowed_ (false),                   // ROI not allowed by default
   first_marker_detected_(false),          // First marker not detected by defualt
   lowest_marker_id_(-1),                  // Lowest marker ID
