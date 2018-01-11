@@ -490,11 +490,11 @@ ArucoMapping::processImage(cv::Mat input_image,cv::Mat output_image)
       std::stringstream marker_tf_name;
       marker_tf_name << "marker_" << index;
 
-      listener_->waitForTransform("world",marker_tf_name.str(),ros::Time(0),
+      listener_->waitForTransform("map",marker_tf_name.str(),ros::Time(0),
                                   ros::Duration(WAIT_FOR_TRANSFORM_INTERVAL));
       try
       {
-        listener_->lookupTransform("world",marker_tf_name.str(),ros::Time(0),
+        listener_->lookupTransform("map",marker_tf_name.str(),ros::Time(0),
                                    markers_[index].tf_to_world);
       }
       catch(tf::TransformException &e)
@@ -562,11 +562,11 @@ ArucoMapping::processImage(cv::Mat input_image,cv::Mat output_image)
     std::stringstream closest_camera_tf_name;
     closest_camera_tf_name << "camera_" << closest_camera_index_;
 
-    listener_->waitForTransform("world",closest_camera_tf_name.str(),ros::Time(0),
+    listener_->waitForTransform("map",closest_camera_tf_name.str(),ros::Time(0),
                                 ros::Duration(WAIT_FOR_TRANSFORM_INTERVAL));
     try
     {
-      listener_->lookupTransform("world",closest_camera_tf_name.str(),ros::Time(0),
+      listener_->lookupTransform("map",closest_camera_tf_name.str(),ros::Time(0),
                                  world_position_transform_);
     }
     catch(tf::TransformException &ex)
@@ -601,7 +601,7 @@ ArucoMapping::processImage(cv::Mat input_image,cv::Mat output_image)
   if((any_markers_visible == true))
   {
     marker_msg.header.stamp = ros::Time::now();
-    marker_msg.header.frame_id = "world";
+    marker_msg.header.frame_id = "map";
     marker_msg.marker_visibile = true;
     marker_msg.num_of_visible_markers = num_of_visible_markers;
     marker_msg.global_camera_pose = world_position_geometry_msg_;
@@ -619,7 +619,7 @@ ArucoMapping::processImage(cv::Mat input_image,cv::Mat output_image)
   else
   {
     marker_msg.header.stamp = ros::Time::now();
-    marker_msg.header.frame_id = "world";
+    marker_msg.header.frame_id = "map";
     marker_msg.num_of_visible_markers = num_of_visible_markers;
     marker_msg.marker_visibile = false;
     marker_msg.marker_ids.clear();
@@ -645,7 +645,7 @@ ArucoMapping::publishTfs(bool world_option)
     // Older marker - or World
     std::stringstream marker_tf_id_old;
     if(i == 0)
-      marker_tf_id_old << "world";
+      marker_tf_id_old << "map";
     else
       marker_tf_id_old << "marker_" << markers_[i].previous_marker_id;
     broadcaster_.sendTransform(tf::StampedTransform(markers_[i].tf_to_previous,ros::Time::now(),marker_tf_id_old.str(),marker_tf_id.str()));
@@ -660,7 +660,7 @@ ArucoMapping::publishTfs(bool world_option)
       // Global position of marker TF
       std::stringstream marker_globe;
       marker_globe << "marker_globe_" << i;
-      broadcaster_.sendTransform(tf::StampedTransform(markers_[i].tf_to_world,ros::Time::now(),"world",marker_globe.str()));
+      broadcaster_.sendTransform(tf::StampedTransform(markers_[i].tf_to_world,ros::Time::now(),"map",marker_globe.str()));
     }
 
     // Cubes for RVIZ - markers
@@ -669,7 +669,7 @@ ArucoMapping::publishTfs(bool world_option)
 
   // Global Position of object
   if(world_option == true)
-    broadcaster_.sendTransform(tf::StampedTransform(world_position_transform_,ros::Time::now(),"world","camera_position"));
+    broadcaster_.sendTransform(tf::StampedTransform(world_position_transform_,ros::Time::now(),"map","camera_position"));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -680,7 +680,7 @@ ArucoMapping::publishMarker(geometry_msgs::Pose marker_pose, int marker_id, int 
   visualization_msgs::Marker vis_marker;
 
   if(index == 0)
-    vis_marker.header.frame_id = "world";
+    vis_marker.header.frame_id = "map";
   else
   {
     std::stringstream marker_tf_id_old;
