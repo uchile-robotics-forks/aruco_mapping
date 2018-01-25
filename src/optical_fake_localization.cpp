@@ -102,13 +102,13 @@ public:
         ros::NodeHandle private_nh("~");
         private_nh.param("odom_frame_id", odom_frame_id_, std::string("odom"));
         private_nh.param("base_frame_id", base_frame_id_, std::string("base_link"));
-        private_nh.param("global_frame_id", global_frame_id_, std::string("/map"));
+        private_nh.param("global_frame_id", global_frame_id_, std::string("map"));
         private_nh.param("delta_x", delta_x_, 0.0);
         private_nh.param("delta_y", delta_y_, 0.0);
         private_nh.param("delta_yaw", delta_yaw_, 0.0);
         private_nh.param("transform_tolerance", transform_tolerance_, 0.1);
 
-        private_nh.param("localization_global_frame_id", localization_global_frame_id_, std::string("/map"));
+        private_nh.param("localization_global_frame_id", localization_global_frame_id_, std::string("map"));
         private_nh.param("localization_camera_optical_frame_id_", localization_camera_optical_frame_id__,std::string("camera_position"));
         private_nh.param("robot_camera_frame_id", robot_camera_frame_id_,std::string("CameraTop_optical_frame"));
         m_particleCloud.header.stamp = ros::Time::now();
@@ -214,7 +214,7 @@ public:
             return;
         }
         map_to_odom = loc_global_to_loc_camera * robot_camera_to_odom ;
-        map_to_odom = m_offsetTf * map_to_odom;
+        //map_to_odom = m_offsetTf * map_to_odom;
         // m_tfServer->sendTransform(tf::StampedTransform(odom_to_map.inverse(),
         //                                                message->header.stamp + ros::Duration(transform_tolerance_),
         //                                                global_frame_id_, message->header.frame_id));
