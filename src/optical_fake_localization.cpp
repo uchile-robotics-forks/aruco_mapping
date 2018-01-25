@@ -109,7 +109,7 @@ public:
         private_nh.param("transform_tolerance", transform_tolerance_, 0.1);
 
         private_nh.param("localization_global_frame_id", localization_global_frame_id_, std::string("map"));
-        private_nh.param("localization_camera_optical_frame_id_", localization_camera_optical_frame_id__,std::string("camera_position"));
+        private_nh.param("localization_camera_optical_frame_id", localization_camera_optical_frame_id__,std::string("camera_position"));
         private_nh.param("robot_camera_frame_id", robot_camera_frame_id_,std::string("CameraTop_optical_frame"));
         m_particleCloud.header.stamp = ros::Time::now();
         m_particleCloud.header.frame_id = global_frame_id_;

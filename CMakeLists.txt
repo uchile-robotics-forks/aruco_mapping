@@ -42,11 +42,11 @@ catkin_package(
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
-add_executable(aruco_localization src/aruco_localization.cpp)
+add_executable(optical_fake_localization src/optical_fake_localization.cpp)
 add_dependencies(${PROJECT_NAME} ${catkin_EXPORTED_TARGETS} aruco_mapping_gencpp )
-add_dependencies(aruco_localization ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(optical_fake_localization ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS} ${aruco_LIBS} ${ROS_LIBRARIES} ${catkin_LIBRARIES})
-target_link_libraries(aruco_localization ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries(optical_fake_localization ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 
 
  
