@@ -1,15 +1,17 @@
 #!/usr/bin/env python  
 import roslib
 import rospy
+import sys
 
 import tf
 
 if __name__ == '__main__':
-    rospy.init_node('ghost_frame_spawner')  
+    ghost_frame_name = sys.argv[1]
+    rospy.init_node(ghost_frame_name+'_frame_spawner')  
     listener = tf.TransformListener()
     br = tf.TransformBroadcaster()
     #listener.waitForTransform('odom','base_footprint',rospy.Time.now(),rospy.Duration(3.0))
-    while True :
+    while not rospy.is_shutdown() :
         try :
             (trans,rot) = listener.lookupTransform('odom', 'base_footprint', rospy.Time(0))
             break
@@ -18,5 +20,5 @@ if __name__ == '__main__':
             continue
     rate = rospy.Rate(100.0)
     while not rospy.is_shutdown() and len(trans)!=0:
-        br.sendTransform(trans,rot,rospy.Time.now(),'base_map','odom')
+        br.sendTransform(trans,rot,rospy.Time.now(),ghost_frame_name,'odom')
         rate.sleep()
